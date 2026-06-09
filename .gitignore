@@ -1,0 +1,20 @@
+# Secrets / environment
+.env
+*.env
+**/.env
+sentinel-push/.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.Python
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,0 +1,21 @@
+// Detection 1: Account Takeover via MFA Fatigue
+//
+// What it finds:
+//   High-risk sign-ins, which surfaces the full dmorris attack chain in order:
+//   password guessing from a foreign IP, an MFA challenge, repeated denied MFA
+//   pushes (the fatigue attack), and the final successful sign-in once the user
+//   caved. All from the same malicious IP (102.89.34.180, Lagos NG).
+//
+// Why it works:
+//   Microsoft Entra ID Protection scores risky sign-ins. Filtering to
+//   RiskLevelDuringSignIn == "high" strips ~50 benign records down to just the
+//   attack, and sorting by time reconstructs the kill chain.
+//
+// MITRE ATT&CK:
+//   T1110 Brute Force, T1621 MFA Request Generation (MFA fatigue),
+//   T1078 Valid Accounts
+
+SigninLogs_CL
+| where RiskLevelDuringSignIn == "high"
+| project TimeGenerated, UserPrincipalName, IPAddress, Location, ResultDescription, MfaResult, ConditionalAccessStatus
+| sort by TimeGenerated asc

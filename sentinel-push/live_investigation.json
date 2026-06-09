@@ -1,0 +1,40 @@
+{
+  "verdict": "true_positive",
+  "confidence": 95,
+  "severity": "critical",
+  "summary": "Account takeover of dmorris@contoso.com with malicious inbox rule and email forwarding to external address",
+  "reasoning": "On June 8, 2026, attacker from malicious IP 102.89.34.180 (Lagos, Nigeria - flagged as anonymizer/account_takeover) successfully compromised dmorris@contoso.com after multiple authentication attempts. User's normal location is Chicago, US (73.118.45.9). Attack timeline: (1) 08:41-08:45 UTC: 6 failed login attempts including password failures and MFA denials, (2) 08:47:50 UTC: Successful authentication with MFA somehow satisfied despite high-risk indicators, (3) 08:50:12 UTC: Created malicious inbox rule 'zzz' to hide financial emails (invoice/payment/wire) in RSS Feeds folder and mark as read, (4) 08:52:40 UTC: Set mailbox forwarding to attacker-collect@proton.me. The IP is confirmed malicious, user agent is python-requests (automation), and post-compromise actions are textbook data exfiltration tactics. No remediation activity detected in audit logs.",
+  "kql_used": [
+    "SigninLogs_CL | where TimeGenerated >= ago(7d) | where RiskLevelDuringSignIn == \"high\" or RiskState == \"atRisk\" | sort by TimeGenerated asc",
+    "SigninLogs_CL | where TimeGenerated >= ago(7d) | where ResultType != \"0\" | summarize FailedAttempts=count() by UserPrincipalName, IPAddress | where FailedAttempts > 5 | sort by FailedAttempts desc",
+    "SigninLogs_CL | where TimeGenerated >= ago(7d) | where UserPrincipalName == \"dmorris@contoso.com\" | project TimeGenerated, IPAddress, Location, ResultType, ResultDescription, MfaResult | sort by TimeGenerated asc",
+    "AuditLogs_CL | where TimeGenerated >= ago(7d) | where UserPrincipalName == \"dmorris@contoso.com\" or InitiatedByIP == \"102.89.34.180\" | sort by TimeGenerated asc",
+    "AuditLogs_CL | where TimeGenerated >= ago(7d) | where OperationName has_any (\"Add inbox rule\", \"Set-Mailbox\", \"New-InboxRule\", \"Set-InboxRule\", \"Add app role assignment\", \"Consent to application\", \"Add OAuth2PermissionGrant\") | sort by TimeGenerated asc"
+  ],
+  "timeline": [
+    "2026-06-08 08:12:00 UTC - dmorris@contoso.com legitimate sign-in from Chicago, US (73.118.45.9) with MFA",
+    "2026-06-08 08:41:10 UTC - Failed login attempt from Lagos, Nigeria (102.89.34.180) - Invalid password",
+    "2026-06-08 08:41:32 UTC - Failed login attempt from Lagos, Nigeria (102.89.34.180) - Invalid password",
+    "2026-06-08 08:42:30 UTC - Partial success from Lagos - Primary auth passed, MFA required but not satisfied",
+    "2026-06-08 08:43:05 UTC - Failed MFA challenge from Lagos - User denied MFA",
+    "2026-06-08 08:44:05 UTC - Failed MFA challenge from Lagos - User denied MFA",
+    "2026-06-08 08:45:05 UTC - Failed MFA challenge from Lagos - User denied MFA",
+    "2026-06-08 08:47:50 UTC - SUCCESSFUL login from Lagos (102.89.34.180) to Azure Portal with MFA satisfied despite high-risk",
+    "2026-06-08 08:50:12 UTC - Created malicious inbox rule 'zzz' to hide and auto-read emails containing 'invoice', 'payment', 'wire' keywords",
+    "2026-06-08 08:52:40 UTC - Set mailbox forwarding to attacker-collect@proton.me from IP 102.89.34.180"
+  ],
+  "recommended_actions": [
+    "IMMEDIATE: Disable dmorris@contoso.com account and revoke all active sessions",
+    "IMMEDIATE: Remove inbox forwarding rule (ForwardingSmtpAddress to attacker-collect@proton.me)",
+    "IMMEDIATE: Delete malicious inbox rule 'zzz' that hides financial emails",
+    "IMMEDIATE: Block IP 102.89.34.180 at firewall/conditional access policy level",
+    "Force password reset for dmorris@contoso.com with supervised MFA re-enrollment",
+    "Review all emails sent/received between 08:47:50 and current time for data exfiltration",
+    "Check for any emails forwarded to attacker-collect@proton.me and assess data exposure",
+    "Investigate how attacker bypassed/satisfied MFA requirement - potential MFA fatigue attack or compromised MFA method",
+    "Review other users for similar activity from 102.89.34.0/24 network range",
+    "Contact user dmorris to determine if they approved any MFA prompts during the 08:41-08:47 timeframe",
+    "Enable Conditional Access policies to block high-risk sign-ins and impossible travel scenarios",
+    "Review and monitor for any additional persistence mechanisms (app registrations, service principals, OAuth grants)"
+  ]
+}

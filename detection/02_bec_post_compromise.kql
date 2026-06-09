@@ -1,0 +1,22 @@
+// Detection 2: Business Email Compromise - Post-Compromise Actions
+//
+// What it finds:
+//   The control-plane actions the attacker took right after taking over the
+//   dmorris account: a malicious inbox rule that hides invoice/payment/wire
+//   emails (moves them to RSS Feeds and marks them read), and external mail
+//   forwarding to an attacker address (attacker-collect@proton.me). Both from
+//   the same IP as the sign-in attack (102.89.34.180).
+//
+// Why it matters:
+//   This is the goal of a BEC: intercept and steal financial email without the
+//   real user noticing. The inbox rule hides it; the forwarding exfiltrates it.
+//   Correlating these AuditLogs actions with Detection 1's sign-in compromise
+//   ties the whole incident together.
+//
+// MITRE ATT&CK:
+//   T1564.008 Email Hiding Rules, T1114.003 Email Forwarding Rule
+
+AuditLogs_CL
+| where UserPrincipalName == "dmorris@contoso.com"
+| project TimeGenerated, OperationName, InitiatedByIP, TargetResource, ModifiedProperties
+| sort by TimeGenerated asc

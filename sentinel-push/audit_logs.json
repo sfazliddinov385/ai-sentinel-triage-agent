@@ -1,0 +1,57 @@
+[
+  {
+    "TimeGenerated": "2026-06-08T08:50:12Z",
+    "CorrelationId": "83c3fba9-0d02-4719-9f31-ea314ec70029",
+    "OperationName": "New-InboxRule",
+    "Category": "UserManagement",
+    "UserPrincipalName": "dmorris@contoso.com",
+    "InitiatedByIP": "102.89.34.180",
+    "Result": "success",
+    "TargetResource": "dmorris@contoso.com",
+    "ModifiedProperties": "Rule 'zzz': move messages containing 'invoice','payment','wire' to RSS Feeds; mark read"
+  },
+  {
+    "TimeGenerated": "2026-06-08T08:52:40Z",
+    "CorrelationId": "33c54b0a-ffd6-4514-b25a-c4cbb434e8ab",
+    "OperationName": "Set-Mailbox",
+    "Category": "UserManagement",
+    "UserPrincipalName": "dmorris@contoso.com",
+    "InitiatedByIP": "102.89.34.180",
+    "Result": "success",
+    "TargetResource": "dmorris@contoso.com",
+    "ModifiedProperties": "ForwardingSmtpAddress set to attacker-collect@proton.me"
+  },
+  {
+    "TimeGenerated": "2026-06-08T08:55:00Z",
+    "CorrelationId": "64fbd94a-9350-4090-b3d1-0285257b5981",
+    "OperationName": "Update user",
+    "Category": "UserManagement",
+    "UserPrincipalName": "admin@contoso.com",
+    "InitiatedByIP": "10.4.2.10",
+    "Result": "success",
+    "TargetResource": "newhire@contoso.com",
+    "ModifiedProperties": "Group membership updated"
+  },
+  {
+    "TimeGenerated": "2026-06-08T10:10:00Z",
+    "CorrelationId": "55569c65-3b54-41ee-af37-e17b6d2a7ea5",
+    "OperationName": "Add member to group",
+    "Category": "UserManagement",
+    "UserPrincipalName": "admin@contoso.com",
+    "InitiatedByIP": "10.4.2.10",
+    "Result": "success",
+    "TargetResource": "Finance-RO",
+    "ModifiedProperties": "Added rpatel"
+  },
+  {
+    "TimeGenerated": "2026-06-08T14:20:05Z",
+    "CorrelationId": "55cd7c4b-fa44-4b13-8c7d-89491abcc5bd",
+    "OperationName": "Consent to application",
+    "Category": "ApplicationManagement",
+    "UserPrincipalName": "rwong@contoso.com",
+    "InitiatedByIP": "65.52.108.33",
+    "Result": "success",
+    "TargetResource": "Adobe Acrobat Sign",
+    "ModifiedProperties": "Verified publisher: Adobe Inc.; delegated scopes: openid, profile, User.Read"
+  }
+]
