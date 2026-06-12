@@ -1,26 +1,4 @@
-"""
-push_to_sentinel.py - Upload the scenario logs into Microsoft Sentinel custom
-tables (SigninLogs_CL, AuditLogs_CL) via the Azure Monitor Logs Ingestion API.
 
-SIMPLE SETUP - put these 4 files in ONE folder:
-    push_to_sentinel.py   (this file)
-    signin_logs.json
-    audit_logs.json
-    .env                  (the config file with your 7 values)
-
-Your .env file should contain (no quotes, no spaces around =):
-    AZURE_TENANT_ID=...
-    AZURE_CLIENT_ID=...
-    AZURE_CLIENT_SECRET=...
-    DCR_IMMUTABLE=dcr-0591a91615ba4e3c8fdf1e8df344065c
-    DCE_ENDPOINT=https://dce-sentinel-lab-126o.eastus-1.ingest.monitor.azure.com
-    STREAM_SIGNIN=Custom-SigninLogs_CL
-    STREAM_AUDIT=Custom-AuditLogs_CL
-
-Then in a terminal, from inside that folder:
-    pip install azure-monitor-ingestion azure-identity
-    python push_to_sentinel.py
-"""
 
 import json
 import os
