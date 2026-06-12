@@ -1,16 +1,4 @@
-"""
-sentinel_agent.py - AI investigation agent that queries LIVE Microsoft Sentinel.
 
-Instead of reading local JSON, the agent's KQL runs against the real Sentinel
-workspace via the Azure Monitor Query API. The agent decides which queries to
-write based on what it finds - a real agentic investigation against a live SIEM.
-
-SETUP - put this file in a folder with a .env containing:
-    AZURE_TENANT_ID=...
-    AZURE_CLIENT_ID=...
-    AZURE_CLIENT_SECRET=...
-    WORKSPACE_ID=7e8398b9-5cfc-4c84-b7dc-6482f6676835
-    ANTHROPIC_API_KEY=sk-ant-...     (omit to run in mock mode)
 
 The app (AZURE_CLIENT_ID) needs the 'Log Analytics Reader' role on the workspace.
 
