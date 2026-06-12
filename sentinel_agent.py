@@ -1,4 +1,5 @@
-
+"""
+Microsoft Sentinel AI triage agent.
 
 The app (AZURE_CLIENT_ID) needs the 'Log Analytics Reader' role on the workspace.
 
@@ -46,7 +47,7 @@ def get_kql_client():
 
 
 def run_kql(query):
-    """Execute KQL against the LIVE Sentinel workspace and return rows as dicts."""
+    """Execute KQL against the live Sentinel workspace and return rows as dicts."""
     from azure.monitor.query import LogsQueryStatus
     from datetime import timedelta
 
@@ -122,13 +123,13 @@ environment. You investigate by writing KQL against the live workspace.
 Investigate whether there has been an account compromise. Steps:
 1. Query SigninLogs_CL for high-risk sign-ins to find suspicious activity.
 2. For any suspicious IP, check threat intel.
-3. If you find a compromised account, query AuditLogs_CL for that user to find \
+3. If a compromised account is found, query AuditLogs_CL for that user to find \
 post-compromise actions (inbox rules, forwarding, consents).
 4. Correlate into a timeline and decide: is this a real incident or noise?
 
-Base every conclusion on rows you actually retrieved.
+Base every conclusion on rows actually retrieved.
 
-When your investigation is complete, your FINAL message must contain ONLY a JSON \
+When the investigation is complete, the FINAL message must contain ONLY a JSON \
 object and nothing else - no preamble, no explanation before or after, no markdown \
 code fences. Just the raw JSON object, starting with { and ending with }:
 {
@@ -137,7 +138,7 @@ code fences. Just the raw JSON object, starting with { and ending with }:
   "severity": "low" | "medium" | "high" | "critical",
   "summary": "one-sentence headline",
   "reasoning": "why, citing specific evidence",
-  "kql_used": ["the KQL queries you ran"],
+  "kql_used": ["the KQL queries that were run"],
   "timeline": ["ordered events with timestamps"],
   "recommended_actions": ["concrete next steps"]
 }"""
